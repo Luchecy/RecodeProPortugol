@@ -1,38 +1,177 @@
-Algoritmo "1VA_MariaLuchecy"
-// Disciplina  :  [Introdução à Lógica de Programação]
-// Professor   : Sônia França
-// Descrição   : Aqui você descreve o que o programa faz! (função)
-// Autor(a)    : Maria Luchecy
-// Data atual  : 02/12/2022
-Var
-// ler o salário, valor de emprestimo, calcular o numero das parcelas
-salariobru, valorempres, salariobru30, valorparc : real
-numparce: inteiro
-Inicio
-// Seção de Comandos, procedimento, funções, operadores, etc... 
-escreval("                Governo do Estado de PE                ")
-escreval("Consulta de linha de crédito para servidores do Estado de PE")
-escreval
-escreva("      Veja abaixo as duas condições para aprovação do crédito:      ")
-escreval
-escreval("1- O crédito quando APROVADO precisa ser pago em até 24 parcelas.")
-escreval("2- O valor da parcela não poderá ultrapassar 30% do seu salário bruto.")
-escreval
-escreva("Informe seu salário bruto em R$:")
- leia(salariobru)
-escreval
-escreva("Informe o valor do emprestimo desejado:")
- leia(valorempres)
-escreval
-escreva("Informe o número de parcelas desejadas. (Respeitar o número Máximo de 24 Parcelas):")
- leia(numparce)
- 
-  valorparc <- valorempres/numparce
+algoritmo "CadastroAgenciaDeViagens"
+// Disciplina  : MÃ³dulo 2
+// Professor   : Marcos Marques
+// DescriÃ§Ã£o   : AgÃªncia de viagens, cadastro com vetor e consulta
+// Autor(a)    : Maria Luchecy Ribeiro de Araujo
+// Definindo os vetores para armazenar os dados
+var
+    nomeCliente, enderecoCliente, emailCliente: vetor[0..49] de caracter
+    idadeCliente, celularCliente, cpfCliente: vetor[0..49] de inteiro
+    destinos, tipoDeViagem: vetor[0..49] de caracter
+    valordestino: vetor[0..49] de real
+    totalClientes, totalDestinos, codigoViagem, dataIda, duracaoViagem: inteiro
+    indice, resp, codigo: inteiro
+    cpfConsulta: real
+    encontrado: logico
 
-escreval
-    se valorparc < (salariobru*30)/100 entao
-       escreval("      Parabéns! O seu crédito foi APROVADO.      ")
-    senao
-       escreval("      Infelizmente o seu crédito foi RECUSADO.      ")
-    fimse
-Fimalgoritmo
+//construÃ§Ã£o do menu
+procedimento menu()
+inicio
+     repita
+           escreval
+           escreval("-------- AVGM - AgÃªncia de Viagens Gatinhos Miau --------")
+           escreval
+           escreval("------------------------- Menu --------------------------")
+           escreval
+           escreval("1 - Cadastrar cliente")
+           escreval("2 - Cadastrar destino")
+           escreval("3 - Listar clientes cadastrados")
+           escreval("4 - Listar destinos cadastrados")
+           escreval("5 - Consultar cadastro de cliente por CPF")
+           escreval("6 - Consultar cadastro de destino por cÃ³digo")
+           escreval("0 - Sair")
+           escreval
+           escreval("---------------------------------------------------------")
+           escreval
+           escreva("Escolha uma opÃ§Ã£o: ")
+           leia(resp)
+           limpatela
+     ate (resp >= 0) e (resp <= 6)
+fimprocedimento
+
+// InÃ­cio do algoritmo
+inicio
+
+    // InicializaÃ§Ã£o das variÃ¡veis
+    totalClientes <- 0
+    totalDestinos <- 0
+    resp <- 1
+
+    // Loop principal do programa
+    enquanto resp <> 0 faca
+        menu()
+
+        escolha resp
+        caso 1
+            se totalClientes < 50 entao
+                escreval("Informe o nome do cliente: ")
+                leia(nomeCliente[totalClientes])
+                escreval("Informe o endereÃ§o do cliente: ")
+                leia(enderecoCliente[totalClientes])
+                escreval("Informe o email do cliente: ")
+                leia(emailCliente[totalClientes])
+                escreval("Informe a idade do cliente: ")
+                leia(idadeCliente[totalClientes])
+                escreval("Informe o nÃºmero de celular do cliente: ")
+                leia(celularCliente[totalClientes])
+                escreval("Informe o CPF do cliente: ")
+                leia(cpfCliente[totalClientes])
+                totalClientes <- totalClientes + 1
+                limpatela
+              
+                escreval("Cliente cadastrado com sucesso!")
+                escreval
+            senao
+                escreval("Limite mÃ¡ximo de clientes atingido. Cadastro nÃ£o realizado.")
+                escreval
+            fimse
+        caso 2
+            se totalDestinos < 50 entao
+                escreval("Informe o destino: ")
+                leia(destinos[totalDestinos])
+                escreval("Informe o tipo de viagem. (Exemplo:Lazer, NegÃ³dios...): ")
+                leia(tipoDeViagem[totalDestinos])
+                escreval("Adicione o cÃ³digo da viagem: ")
+                leia(codigoViagem[totalDestinos])
+                escreval("Informe o valor do destino: ")
+                leia(valordestino[totalDestinos])
+                escreval("Informe a duraÃ§Ã£o em dias da viagem: (Exemplo: 10, 35...)")
+                leia(duracaoViagem[totalDestinos])
+                escreval("Informe a data de inÃ­cio da viagem: (Exemplo: 17052024)")
+                leia(dataIda[totalDestinos])
+                totalDestinos <- totalDestinos + 1
+                limpatela
+                
+                escreval("Destino cadastrado com sucesso!")
+            senao
+                escreval("Limite mÃ¡ximo de destinos atingido. Cadastro nÃ£o realizado.")
+            fimse
+        caso 3
+            se totalClientes > 0 entao
+                escreval("Lista de clientes cadastrados:")
+                para indice de 0 ate totalClientes-1 faca
+                    escreval("Cliente ", indice+1, ":")
+                    escreval("Nome: ", nomeCliente[indice])
+                    escreval("EndereÃ§o: ", enderecoCliente[indice])
+                    escreval("Email: ", emailCliente[indice])
+                    escreval("Idade: ", idadeCliente[indice])
+                    escreval("Celular: ", celularCliente[indice])
+                    escreval("CPF: ", cpfCliente[indice])
+                    escreval
+                fimpara
+            senao
+                escreval("Nenhum cliente cadastrado.")
+            fimse
+        caso 4
+            se totalDestinos > 0 entao
+                escreval("Lista de destinos cadastrados:")
+                para indice de 0 ate totalDestinos-1 faca
+                    escreval(indice+1, "- ", destinos[indice])
+                    escreval("Tipo de viagem: ", tipoDeViagem[indice])
+                    escreval("CÃ³digo da Viagem: ", codigoViagem[indice])
+                    escreval("Valor do Destino: ", valordestino[indice])
+                    escreval("Duracao da Viagem: ", duracaoViagem[indice])
+                    escreval("Data de inÃ­cio da Viagem: ", dataIda[indice])
+                    escreval
+                fimpara
+            senao
+                escreval("Nenhum destino cadastrado.")
+            fimse
+            
+        caso 5
+             escreva("Informe o CPF do cliente que deseja consultar: ")
+             leia(cpfConsulta)
+             encontrado <- falso
+             escreval
+             para indice de 0 ate totalClientes-1 faca
+                 se cpfCliente[indice] = cpfConsulta entao
+                     escreval
+                     escreval("InformaÃ§Ãµes do cliente com CPF ", cpfConsulta, ":")
+                     escreval("Nome: ", nomeCliente[indice])
+                     escreval("EndereÃ§o: ", enderecoCliente[indice])
+                     escreval("Email: ", emailCliente[indice])
+                     escreval("Idade: ", idadeCliente[indice])
+                     escreval("Celular: ", celularCliente[indice])
+                     escreval("CPF: ", cpfCliente[indice])
+                     encontrado <- verdadeiro
+                 fimse
+             fimpara
+             se (encontrado = falso) entao
+                 escreval("Cliente com CPF ", cpfConsulta, " nÃ£o encontrado.")
+             fimse
+        caso 6
+          escreva("Informe o cÃ³digo do destino que deseja consultar: ")
+          leia(codigo)
+          encontrado <- falso
+          escreval
+          para indice de 0 ate totalDestinos-1 faca
+              se codigoViagem[indice] = codigo entao
+                  escreval("InformaÃ§Ãµes do destino com cÃ³digo ", codigo, ":")
+                  escreval("Destino: ", destinos[indice])
+                  escreval("Tipo de Viagem: ", tipoDeViagem[indice])
+                  escreval("Valor: R$", valordestino[indice]:2:2)
+                  escreval("DuraÃ§Ã£o: ", duracaoViagem[indice], " dias")
+                  escreval("Data de inÃ­cio: ", dataIda[indice])
+                  encontrado <- verdadeiro
+              fimse
+          fimpara
+          se (encontrado = falso) entao
+              escreval("Destino com cÃ³digo ", codigo, " nÃ£o encontrado.")
+          fimse
+        caso 0
+            escreval("Encerrando o programa...")
+        caso contrario:
+            escreval("OpÃ§Ã£o invÃ¡lida. Por favor, escolha uma opÃ§Ã£o vÃ¡lida.")
+        fimescolha
+    fimenquanto
+fimalgoritmo
